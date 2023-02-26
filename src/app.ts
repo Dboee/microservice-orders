@@ -16,6 +16,10 @@ import {
 } from '@delight-system/microservice-common';
 
 // Routes
+import { createOrderRouter } from './routes/create';
+import { indexOrderRouter } from './routes/index';
+import { showOrderRouter } from './routes/show';
+import { deleteOrderRouter } from './routes/delete';
 
 // setup
 const port = 3000;
@@ -38,6 +42,10 @@ app.use(
 app.use(currentUser);
 
 //routes
+app.use(createOrderRouter);
+app.use(indexOrderRouter);
+app.use(showOrderRouter);
+app.use(deleteOrderRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
