@@ -9,6 +9,7 @@ import {
   BadRequestError,
 } from '@delight-system/microservice-common';
 import { body } from 'express-validator';
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
 
 import { Order, OrderStatus } from '../models/order';
 import { Ticket } from '../models/ticket';
@@ -58,6 +59,20 @@ router.post(
     await order.save();
 
     // Publish an event saying that an order was created
+    try {
+      await new OrderCreatedPublisher().publish({
+        id: order.id,
+        status: order.status,
+        userId: order.userId,
+        expiresAt: order.expiresAt.toISOString(),
+        ticket: {
+          id: ticket.id,
+          price: ticket.price,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
 
     res.status(201).send(order);
   }
