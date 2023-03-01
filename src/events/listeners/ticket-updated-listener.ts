@@ -20,7 +20,7 @@ export class TicketUpdatedListener extends Listener<ITicketUpdatedEvent> {
     context: PartitionContext,
     event: ReceivedEventData
   ) {
-    console.log('updated-Data: ', data);
+    // console.log('updated-Data: ', data);
     // console.log('Event: ', event);
     // console.log('Context: ', context);
 

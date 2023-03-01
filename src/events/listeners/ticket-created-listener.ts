@@ -22,7 +22,7 @@ export class TicketCreatedListener extends Listener<ITicketCreatedEvent> {
     context: PartitionContext,
     event: ReceivedEventData
   ) {
-    console.log('created-Data: ', data);
+    // console.log('created-Data: ', data);
     // console.log('Event: ', event);
     // console.log('Event context: ', context);
 
