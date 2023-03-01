@@ -8,6 +8,9 @@ import { DatabaseConnectionError } from '@delight-system/microservice-common';
 
 import { app, port } from './app';
 
+import { TicketCreatedListener } from './events/listeners/ticket-created-listener';
+import { TicketUpdatedListener } from './events/listeners/ticket-updated-listener';
+
 const start = async () => {
   // Check if JWT_KEY is defined
   if (!process.env.JWT_KEY) {
@@ -35,6 +38,11 @@ const start = async () => {
     throw new DatabaseConnectionError();
   }
 
+  // Event Listeners
+  new TicketCreatedListener().listen();
+  new TicketUpdatedListener().listen();
+
+  // Start the server
   app.listen(port, () => {
     console.log('Listening on port:', port);
   });

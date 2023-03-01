@@ -5,12 +5,14 @@ import { Order, OrderStatus } from './order';
 
 // defines the shape or structure of an object that represents a ticket.
 interface ITicketAttrs {
+  id: string;
   title: string;
   price: number;
 }
 
 // Defines the shape of a document that represents a ticket in MongoDB.
 interface ITicketDoc extends mongoose.Document {
+  id: string;
   title: string;
   price: number;
   isReserved(): Promise<boolean>;
@@ -43,7 +45,11 @@ const ticketSchema = new mongoose.Schema(
 );
 
 ticketSchema.statics.build = (attrs: ITicketAttrs) => {
-  return new Ticket(attrs);
+  return new Ticket({
+    _id: attrs.id,
+    title: attrs.title,
+    price: attrs.price,
+  });
 };
 ticketSchema.methods.isReserved = async function () {
   // this === the ticket document that we just called 'isReserved' on
