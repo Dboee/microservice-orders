@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../app';
+import { OrderCreatedPublisher } from '../../events/publishers/order-created-publisher';
 import { Order, OrderStatus } from '../../models/order';
 import { Ticket, ITicketDoc } from '../../models/ticket';
 
@@ -47,4 +48,14 @@ it('reserves a ticket', async () => {
     .expect(201);
 });
 
-it.todo('emits an order created event');
+// it('emits an order created event', async () => {
+//   const ticket = await buildTicket();
+//   await ticket.save();
+//   await request(app)
+//     .post('/api/orders')
+//     .set('Cookie', global.signin())
+//     .send({ ticketId: ticket.id })
+//     .expect(201);
+
+//   expect(new OrderCreatedPublisher().publish).toHaveBeenCalled();
+// });

@@ -18,6 +18,14 @@ const start = async () => {
     throw new Error('MONGO_URI must be defined');
   }
 
+  if (!process.env.PUBLISH_KEY) {
+    throw new Error('PUBLISH_KEY must be defined');
+  }
+
+  if (!process.env.LISTEN_KEY) {
+    throw new Error('LISTEN_KEY must be defined');
+  }
+
   // DB
   try {
     await mongoose.connect(process.env.MONGO_URI);

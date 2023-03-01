@@ -12,9 +12,7 @@ export class OrderCancelledPublisher extends Publisher<IOrderCancelledEvent> {
   constructor() {
     const eventHubName = EventHubs.Orders;
     const consumerGroup = ConsumerGroups.OrderCancelled;
-
     super(eventHubName, consumerGroup);
-
     this.eventHubName = eventHubName;
   }
 }

@@ -5,8 +5,9 @@ import jwt from 'jsonwebtoken';
 
 jest.setTimeout(30000);
 
-// jest.mock('../events/publishers/ticket-created-publisher.ts');
-// jest.mock('../events/publishers/ticket-updated-publisher.ts');
+// imports mock functions
+jest.mock('../events/publishers/order-created-publisher.ts');
+jest.mock('../events/publishers/order-cancelled-publisher.ts');
 
 declare global {
   var signin: () => string[];
