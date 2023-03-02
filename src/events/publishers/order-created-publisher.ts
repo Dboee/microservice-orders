@@ -6,13 +6,10 @@ import {
 } from '@delight-system/microservice-common';
 
 export class OrderCreatedPublisher extends Publisher<IOrderCreatedEvent> {
-  eventHubName: EventHubs.Orders;
+  readonly eventHubName: EventHubs.Orders = EventHubs.Orders;
   readonly consumerGroup = ConsumerGroups.OrderCreated;
 
   constructor() {
-    const eventHubName = EventHubs.Orders;
-    const consumerGroup = ConsumerGroups.OrderCreated;
-    super(eventHubName, consumerGroup);
-    this.eventHubName = eventHubName;
+    super(EventHubs.Orders, ConsumerGroups.OrderCreated);
   }
 }
