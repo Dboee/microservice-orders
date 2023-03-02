@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import { BadRequestError } from '@delight-system/microservice-common';
 import { Order, OrderStatus } from './order';
 
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+
 // defines the shape or structure of an object that represents a ticket.
 interface ITicketAttrs {
   id: string;
@@ -12,9 +14,9 @@ interface ITicketAttrs {
 
 // Defines the shape of a document that represents a ticket in MongoDB.
 interface ITicketDoc extends mongoose.Document {
-  id: string;
   title: string;
   price: number;
+  version: number;
   isReserved(): Promise<boolean>;
 }
 
@@ -43,6 +45,9 @@ const ticketSchema = new mongoose.Schema(
     },
   }
 );
+
+ticketSchema.set('versionKey', 'version');
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 ticketSchema.statics.build = (attrs: ITicketAttrs) => {
   return new Ticket({

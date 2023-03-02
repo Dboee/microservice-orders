@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import { OrderStatus } from '@delight-system/microservice-common';
 import { ITicketDoc as TicketDoc } from './ticket';
 
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+
 // An interface that describes what it takes to create a user
 interface IOrderAttrs {
   userId: string;
@@ -19,6 +21,7 @@ interface IOrderModel extends mongoose.Model<IOrderAttrs> {
 // An interface that describes the properties a user document has
 interface IOrderDoc extends mongoose.Document {
   userId: string;
+  version: number;
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
@@ -57,6 +60,9 @@ const orderSchema = new mongoose.Schema(
     },
   }
 );
+
+orderSchema.set('versionKey', 'version');
+orderSchema.plugin(updateIfCurrentPlugin);
 
 // This makes sure that the user is created with the correct properties
 // and that the properties are of the correct type

@@ -32,6 +32,8 @@ router.delete(
     try {
       new OrderCancelledPublisher().publish({
         id: order.id,
+        version: 1337,
+        // version: order.version,
         ticket: {
           id: order.ticket.id,
         },
