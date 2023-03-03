@@ -20,14 +20,7 @@ export class TicketUpdatedListener extends Listener<ITicketUpdatedEvent> {
     context: PartitionContext,
     event: ReceivedEventData
   ) {
-    // console.log('updated-Data: ', data);
-    // console.log('Event: ', event);
-    // console.log('Context: ', context);
-
-    const ticket = await Ticket.findOne({
-      _id: data.id,
-      version: data.version - 1,
-    });
+    const ticket = await Ticket.findByEvent(data);
 
     if (!ticket) {
       throw new Error('Ticket not found');

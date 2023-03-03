@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-import { BadRequestError } from '@delight-system/microservice-common';
 import { Order, OrderStatus } from './order';
 
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
@@ -22,6 +21,10 @@ interface ITicketDoc extends mongoose.Document {
 
 interface ITicketModel extends mongoose.Model<ITicketDoc> {
   build(attrs: ITicketAttrs): ITicketDoc;
+  findByEvent(event: {
+    id: string;
+    version: number;
+  }): Promise<ITicketDoc | null>;
 }
 
 const ticketSchema = new mongoose.Schema(
@@ -48,6 +51,13 @@ const ticketSchema = new mongoose.Schema(
 
 ticketSchema.set('versionKey', 'version');
 ticketSchema.plugin(updateIfCurrentPlugin);
+
+ticketSchema.statics.findByEvent = (event: { id: string; version: number }) => {
+  return Ticket.findOne({
+    _id: event.id,
+    version: event.version - 1,
+  });
+};
 
 ticketSchema.statics.build = (attrs: ITicketAttrs) => {
   return new Ticket({
