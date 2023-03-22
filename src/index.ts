@@ -39,8 +39,8 @@ const start = async () => {
   }
 
   // Event Listeners
-  new TicketCreatedListener().listen();
-  new TicketUpdatedListener().listen();
+  // new TicketCreatedListener().listen();
+  // new TicketUpdatedListener().listen();
 
   // Start the server
   app.listen(port, () => {
